@@ -46,6 +46,12 @@
         "type": "bytes32"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "applicationIndex",
+        "type": "uint256"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "roundAddress",

@@ -2,7 +2,7 @@
   "mainnet": {
     "OSS": {
       "address": "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0",
-      "startBlock": 16349401
+      "startBlock": 17000000
     }
   }
 }

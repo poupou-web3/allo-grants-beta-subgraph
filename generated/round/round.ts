@@ -56,6 +56,28 @@ export class ApplicationMetaPtrUpdatedNewMetaPtrStruct extends ethereum.Tuple {
   }
 }
 
+export class ApplicationStatusesUpdated extends ethereum.Event {
+  get params(): ApplicationStatusesUpdated__Params {
+    return new ApplicationStatusesUpdated__Params(this);
+  }
+}
+
+export class ApplicationStatusesUpdated__Params {
+  _event: ApplicationStatusesUpdated;
+
+  constructor(event: ApplicationStatusesUpdated) {
+    this._event = event;
+  }
+
+  get index(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get status(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class ApplicationsEndTimeUpdated extends ethereum.Event {
   get params(): ApplicationsEndTimeUpdated__Params {
     return new ApplicationsEndTimeUpdated__Params(this);
@@ -118,6 +140,24 @@ export class Initialized__Params {
   }
 }
 
+export class MatchAmountUpdated extends ethereum.Event {
+  get params(): MatchAmountUpdated__Params {
+    return new MatchAmountUpdated__Params(this);
+  }
+}
+
+export class MatchAmountUpdated__Params {
+  _event: MatchAmountUpdated;
+
+  constructor(event: MatchAmountUpdated) {
+    this._event = event;
+  }
+
+  get newAmount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class NewProjectApplication extends ethereum.Event {
   get params(): NewProjectApplication__Params {
     return new NewProjectApplication__Params(this);
@@ -131,13 +171,17 @@ export class NewProjectApplication__Params {
     this._event = event;
   }
 
-  get project(): Bytes {
+  get projectID(): Bytes {
     return this._event.parameters[0].value.toBytes();
+  }
+
+  get applicationIndex(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get applicationMetaPtr(): NewProjectApplicationApplicationMetaPtrStruct {
     return changetype<NewProjectApplicationApplicationMetaPtrStruct>(
-      this._event.parameters[1].value.toTuple()
+      this._event.parameters[2].value.toTuple()
     );
   }
 }
@@ -149,6 +193,32 @@ export class NewProjectApplicationApplicationMetaPtrStruct extends ethereum.Tupl
 
   get pointer(): string {
     return this[1].toString();
+  }
+}
+
+export class PayFeeAndEscrowFundsToPayoutContract extends ethereum.Event {
+  get params(): PayFeeAndEscrowFundsToPayoutContract__Params {
+    return new PayFeeAndEscrowFundsToPayoutContract__Params(this);
+  }
+}
+
+export class PayFeeAndEscrowFundsToPayoutContract__Params {
+  _event: PayFeeAndEscrowFundsToPayoutContract;
+
+  constructor(event: PayFeeAndEscrowFundsToPayoutContract) {
+    this._event = event;
+  }
+
+  get matchAmountAfterFees(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get protocolFeeAmount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get roundFeeAmount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -298,6 +368,42 @@ export class RoundEndTimeUpdated__Params {
   }
 }
 
+export class RoundFeeAddressUpdated extends ethereum.Event {
+  get params(): RoundFeeAddressUpdated__Params {
+    return new RoundFeeAddressUpdated__Params(this);
+  }
+}
+
+export class RoundFeeAddressUpdated__Params {
+  _event: RoundFeeAddressUpdated;
+
+  constructor(event: RoundFeeAddressUpdated) {
+    this._event = event;
+  }
+
+  get roundFeeAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class RoundFeePercentageUpdated extends ethereum.Event {
+  get params(): RoundFeePercentageUpdated__Params {
+    return new RoundFeePercentageUpdated__Params(this);
+  }
+}
+
+export class RoundFeePercentageUpdated__Params {
+  _event: RoundFeePercentageUpdated;
+
+  constructor(event: RoundFeePercentageUpdated) {
+    this._event = event;
+  }
+
+  get roundFeePercentage(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class RoundMetaPtrUpdated extends ethereum.Event {
   get params(): RoundMetaPtrUpdated__Params {
     return new RoundMetaPtrUpdated__Params(this);
@@ -366,7 +472,7 @@ export class RoundStartTimeUpdated__Params {
   }
 }
 
-export class roundContract__applicationMetaPtrResult {
+export class openSourceRound__applicationMetaPtrResult {
   value0: BigInt;
   value1: string;
 
@@ -391,7 +497,53 @@ export class roundContract__applicationMetaPtrResult {
   }
 }
 
-export class roundContract__projectsMetaPtrResult {
+export class openSourceRound__applicationsResultMetaPtrStruct extends ethereum.Tuple {
+  get protocol(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get pointer(): string {
+    return this[1].toString();
+  }
+}
+
+export class openSourceRound__applicationsResult {
+  value0: Bytes;
+  value1: BigInt;
+  value2: openSourceRound__applicationsResultMetaPtrStruct;
+
+  constructor(
+    value0: Bytes,
+    value1: BigInt,
+    value2: openSourceRound__applicationsResultMetaPtrStruct
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromTuple(this.value2));
+    return map;
+  }
+
+  getProjectID(): Bytes {
+    return this.value0;
+  }
+
+  getApplicationIndex(): BigInt {
+    return this.value1;
+  }
+
+  getMetaPtr(): openSourceRound__applicationsResultMetaPtrStruct {
+    return this.value2;
+  }
+}
+
+export class openSourceRound__roundMetaPtrResult {
   value0: BigInt;
   value1: string;
 
@@ -416,34 +568,9 @@ export class roundContract__projectsMetaPtrResult {
   }
 }
 
-export class roundContract__roundMetaPtrResult {
-  value0: BigInt;
-  value1: string;
-
-  constructor(value0: BigInt, value1: string) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromString(this.value1));
-    return map;
-  }
-
-  getProtocol(): BigInt {
-    return this.value0;
-  }
-
-  getPointer(): string {
-    return this.value1;
-  }
-}
-
-export class roundContract extends ethereum.SmartContract {
-  static bind(address: Address): roundContract {
-    return new roundContract("roundContract", address);
+export class openSourceRound extends ethereum.SmartContract {
+  static bind(address: Address): openSourceRound {
+    return new openSourceRound("openSourceRound", address);
   }
 
   DEFAULT_ADMIN_ROLE(): Bytes {
@@ -492,21 +619,51 @@ export class roundContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  applicationMetaPtr(): roundContract__applicationMetaPtrResult {
+  VERSION(): string {
+    let result = super.call("VERSION", "VERSION():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_VERSION(): ethereum.CallResult<string> {
+    let result = super.tryCall("VERSION", "VERSION():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  alloSettings(): Address {
+    let result = super.call("alloSettings", "alloSettings():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_alloSettings(): ethereum.CallResult<Address> {
+    let result = super.tryCall("alloSettings", "alloSettings():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  applicationMetaPtr(): openSourceRound__applicationMetaPtrResult {
     let result = super.call(
       "applicationMetaPtr",
       "applicationMetaPtr():(uint256,string)",
       []
     );
 
-    return new roundContract__applicationMetaPtrResult(
+    return new openSourceRound__applicationMetaPtrResult(
       result[0].toBigInt(),
       result[1].toString()
     );
   }
 
   try_applicationMetaPtr(): ethereum.CallResult<
-    roundContract__applicationMetaPtrResult
+    openSourceRound__applicationMetaPtrResult
   > {
     let result = super.tryCall(
       "applicationMetaPtr",
@@ -518,9 +675,71 @@ export class roundContract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new roundContract__applicationMetaPtrResult(
+      new openSourceRound__applicationMetaPtrResult(
         value[0].toBigInt(),
         value[1].toString()
+      )
+    );
+  }
+
+  applicationStatusesBitMap(param0: BigInt): BigInt {
+    let result = super.call(
+      "applicationStatusesBitMap",
+      "applicationStatusesBitMap(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_applicationStatusesBitMap(param0: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "applicationStatusesBitMap",
+      "applicationStatusesBitMap(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  applications(param0: BigInt): openSourceRound__applicationsResult {
+    let result = super.call(
+      "applications",
+      "applications(uint256):(bytes32,uint256,(uint256,string))",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return new openSourceRound__applicationsResult(
+      result[0].toBytes(),
+      result[1].toBigInt(),
+      changetype<openSourceRound__applicationsResultMetaPtrStruct>(
+        result[2].toTuple()
+      )
+    );
+  }
+
+  try_applications(
+    param0: BigInt
+  ): ethereum.CallResult<openSourceRound__applicationsResult> {
+    let result = super.tryCall(
+      "applications",
+      "applications(uint256):(bytes32,uint256,(uint256,string))",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new openSourceRound__applicationsResult(
+        value[0].toBytes(),
+        value[1].toBigInt(),
+        changetype<openSourceRound__applicationsResultMetaPtrStruct>(
+          value[2].toTuple()
+        )
       )
     );
   }
@@ -548,6 +767,38 @@ export class roundContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  applicationsIndexesByProjectID(param0: Bytes, param1: BigInt): BigInt {
+    let result = super.call(
+      "applicationsIndexesByProjectID",
+      "applicationsIndexesByProjectID(bytes32,uint256):(uint256)",
+      [
+        ethereum.Value.fromFixedBytes(param0),
+        ethereum.Value.fromUnsignedBigInt(param1)
+      ]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_applicationsIndexesByProjectID(
+    param0: Bytes,
+    param1: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "applicationsIndexesByProjectID",
+      "applicationsIndexesByProjectID(bytes32,uint256):(uint256)",
+      [
+        ethereum.Value.fromFixedBytes(param0),
+        ethereum.Value.fromUnsignedBigInt(param1)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   applicationsStartTime(): BigInt {
     let result = super.call(
       "applicationsStartTime",
@@ -563,6 +814,56 @@ export class roundContract extends ethereum.SmartContract {
       "applicationsStartTime",
       "applicationsStartTime():(uint256)",
       []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  getApplicationIndexesByProjectID(projectID: Bytes): Array<BigInt> {
+    let result = super.call(
+      "getApplicationIndexesByProjectID",
+      "getApplicationIndexesByProjectID(bytes32):(uint256[])",
+      [ethereum.Value.fromFixedBytes(projectID)]
+    );
+
+    return result[0].toBigIntArray();
+  }
+
+  try_getApplicationIndexesByProjectID(
+    projectID: Bytes
+  ): ethereum.CallResult<Array<BigInt>> {
+    let result = super.tryCall(
+      "getApplicationIndexesByProjectID",
+      "getApplicationIndexesByProjectID(bytes32):(uint256[])",
+      [ethereum.Value.fromFixedBytes(projectID)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigIntArray());
+  }
+
+  getApplicationStatus(applicationIndex: BigInt): BigInt {
+    let result = super.call(
+      "getApplicationStatus",
+      "getApplicationStatus(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(applicationIndex)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_getApplicationStatus(
+    applicationIndex: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "getApplicationStatus",
+      "getApplicationStatus(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(applicationIndex)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -665,6 +966,44 @@ export class roundContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  matchAmount(): BigInt {
+    let result = super.call("matchAmount", "matchAmount():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_matchAmount(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("matchAmount", "matchAmount():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  nextApplicationIndex(): BigInt {
+    let result = super.call(
+      "nextApplicationIndex",
+      "nextApplicationIndex():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_nextApplicationIndex(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "nextApplicationIndex",
+      "nextApplicationIndex():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   payoutStrategy(): Address {
     let result = super.call("payoutStrategy", "payoutStrategy():(address)", []);
 
@@ -684,39 +1023,6 @@ export class roundContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  projectsMetaPtr(): roundContract__projectsMetaPtrResult {
-    let result = super.call(
-      "projectsMetaPtr",
-      "projectsMetaPtr():(uint256,string)",
-      []
-    );
-
-    return new roundContract__projectsMetaPtrResult(
-      result[0].toBigInt(),
-      result[1].toString()
-    );
-  }
-
-  try_projectsMetaPtr(): ethereum.CallResult<
-    roundContract__projectsMetaPtrResult
-  > {
-    let result = super.tryCall(
-      "projectsMetaPtr",
-      "projectsMetaPtr():(uint256,string)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new roundContract__projectsMetaPtrResult(
-        value[0].toBigInt(),
-        value[1].toString()
-      )
-    );
-  }
-
   roundEndTime(): BigInt {
     let result = super.call("roundEndTime", "roundEndTime():(uint256)", []);
 
@@ -732,20 +1038,66 @@ export class roundContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  roundMetaPtr(): roundContract__roundMetaPtrResult {
+  roundFeeAddress(): Address {
+    let result = super.call(
+      "roundFeeAddress",
+      "roundFeeAddress():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_roundFeeAddress(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "roundFeeAddress",
+      "roundFeeAddress():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  roundFeePercentage(): BigInt {
+    let result = super.call(
+      "roundFeePercentage",
+      "roundFeePercentage():(uint32)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_roundFeePercentage(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "roundFeePercentage",
+      "roundFeePercentage():(uint32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  roundMetaPtr(): openSourceRound__roundMetaPtrResult {
     let result = super.call(
       "roundMetaPtr",
       "roundMetaPtr():(uint256,string)",
       []
     );
 
-    return new roundContract__roundMetaPtrResult(
+    return new openSourceRound__roundMetaPtrResult(
       result[0].toBigInt(),
       result[1].toString()
     );
   }
 
-  try_roundMetaPtr(): ethereum.CallResult<roundContract__roundMetaPtrResult> {
+  try_roundMetaPtr(): ethereum.CallResult<openSourceRound__roundMetaPtrResult> {
     let result = super.tryCall(
       "roundMetaPtr",
       "roundMetaPtr():(uint256,string)",
@@ -756,7 +1108,7 @@ export class roundContract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new roundContract__roundMetaPtrResult(
+      new openSourceRound__roundMetaPtrResult(
         value[0].toBigInt(),
         value[1].toString()
       )
@@ -940,6 +1292,10 @@ export class InitializeCall__Inputs {
   get encodedParameters(): Bytes {
     return this._call.inputValues[0].value.toBytes();
   }
+
+  get _alloSettings(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
 }
 
 export class InitializeCall__Outputs {
@@ -1018,6 +1374,74 @@ export class RevokeRoleCall__Outputs {
   }
 }
 
+export class SetApplicationStatusesCall extends ethereum.Call {
+  get inputs(): SetApplicationStatusesCall__Inputs {
+    return new SetApplicationStatusesCall__Inputs(this);
+  }
+
+  get outputs(): SetApplicationStatusesCall__Outputs {
+    return new SetApplicationStatusesCall__Outputs(this);
+  }
+}
+
+export class SetApplicationStatusesCall__Inputs {
+  _call: SetApplicationStatusesCall;
+
+  constructor(call: SetApplicationStatusesCall) {
+    this._call = call;
+  }
+
+  get statuses(): Array<SetApplicationStatusesCallStatusesStruct> {
+    return this._call.inputValues[0].value.toTupleArray<
+      SetApplicationStatusesCallStatusesStruct
+    >();
+  }
+}
+
+export class SetApplicationStatusesCall__Outputs {
+  _call: SetApplicationStatusesCall;
+
+  constructor(call: SetApplicationStatusesCall) {
+    this._call = call;
+  }
+}
+
+export class SetApplicationStatusesCallStatusesStruct extends ethereum.Tuple {
+  get index(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get statusRow(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SetReadyForPayoutCall extends ethereum.Call {
+  get inputs(): SetReadyForPayoutCall__Inputs {
+    return new SetReadyForPayoutCall__Inputs(this);
+  }
+
+  get outputs(): SetReadyForPayoutCall__Outputs {
+    return new SetReadyForPayoutCall__Outputs(this);
+  }
+}
+
+export class SetReadyForPayoutCall__Inputs {
+  _call: SetReadyForPayoutCall;
+
+  constructor(call: SetReadyForPayoutCall) {
+    this._call = call;
+  }
+}
+
+export class SetReadyForPayoutCall__Outputs {
+  _call: SetReadyForPayoutCall;
+
+  constructor(call: SetReadyForPayoutCall) {
+    this._call = call;
+  }
+}
+
 export class UpdateApplicationMetaPtrCall extends ethereum.Call {
   get inputs(): UpdateApplicationMetaPtrCall__Inputs {
     return new UpdateApplicationMetaPtrCall__Inputs(this);
@@ -1060,164 +1484,92 @@ export class UpdateApplicationMetaPtrCallNewApplicationMetaPtrStruct extends eth
   }
 }
 
-export class UpdateApplicationsEndTimeCall extends ethereum.Call {
-  get inputs(): UpdateApplicationsEndTimeCall__Inputs {
-    return new UpdateApplicationsEndTimeCall__Inputs(this);
+export class UpdateMatchAmountCall extends ethereum.Call {
+  get inputs(): UpdateMatchAmountCall__Inputs {
+    return new UpdateMatchAmountCall__Inputs(this);
   }
 
-  get outputs(): UpdateApplicationsEndTimeCall__Outputs {
-    return new UpdateApplicationsEndTimeCall__Outputs(this);
+  get outputs(): UpdateMatchAmountCall__Outputs {
+    return new UpdateMatchAmountCall__Outputs(this);
   }
 }
 
-export class UpdateApplicationsEndTimeCall__Inputs {
-  _call: UpdateApplicationsEndTimeCall;
+export class UpdateMatchAmountCall__Inputs {
+  _call: UpdateMatchAmountCall;
 
-  constructor(call: UpdateApplicationsEndTimeCall) {
+  constructor(call: UpdateMatchAmountCall) {
     this._call = call;
   }
 
-  get newApplicationsEndTime(): BigInt {
+  get newAmount(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 }
 
-export class UpdateApplicationsEndTimeCall__Outputs {
-  _call: UpdateApplicationsEndTimeCall;
+export class UpdateMatchAmountCall__Outputs {
+  _call: UpdateMatchAmountCall;
 
-  constructor(call: UpdateApplicationsEndTimeCall) {
+  constructor(call: UpdateMatchAmountCall) {
     this._call = call;
   }
 }
 
-export class UpdateApplicationsStartTimeCall extends ethereum.Call {
-  get inputs(): UpdateApplicationsStartTimeCall__Inputs {
-    return new UpdateApplicationsStartTimeCall__Inputs(this);
+export class UpdateRoundFeeAddressCall extends ethereum.Call {
+  get inputs(): UpdateRoundFeeAddressCall__Inputs {
+    return new UpdateRoundFeeAddressCall__Inputs(this);
   }
 
-  get outputs(): UpdateApplicationsStartTimeCall__Outputs {
-    return new UpdateApplicationsStartTimeCall__Outputs(this);
+  get outputs(): UpdateRoundFeeAddressCall__Outputs {
+    return new UpdateRoundFeeAddressCall__Outputs(this);
   }
 }
 
-export class UpdateApplicationsStartTimeCall__Inputs {
-  _call: UpdateApplicationsStartTimeCall;
+export class UpdateRoundFeeAddressCall__Inputs {
+  _call: UpdateRoundFeeAddressCall;
 
-  constructor(call: UpdateApplicationsStartTimeCall) {
+  constructor(call: UpdateRoundFeeAddressCall) {
     this._call = call;
   }
 
-  get newApplicationsStartTime(): BigInt {
+  get newFeeAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class UpdateRoundFeeAddressCall__Outputs {
+  _call: UpdateRoundFeeAddressCall;
+
+  constructor(call: UpdateRoundFeeAddressCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateRoundFeePercentageCall extends ethereum.Call {
+  get inputs(): UpdateRoundFeePercentageCall__Inputs {
+    return new UpdateRoundFeePercentageCall__Inputs(this);
+  }
+
+  get outputs(): UpdateRoundFeePercentageCall__Outputs {
+    return new UpdateRoundFeePercentageCall__Outputs(this);
+  }
+}
+
+export class UpdateRoundFeePercentageCall__Inputs {
+  _call: UpdateRoundFeePercentageCall;
+
+  constructor(call: UpdateRoundFeePercentageCall) {
+    this._call = call;
+  }
+
+  get newFeePercentage(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 }
 
-export class UpdateApplicationsStartTimeCall__Outputs {
-  _call: UpdateApplicationsStartTimeCall;
+export class UpdateRoundFeePercentageCall__Outputs {
+  _call: UpdateRoundFeePercentageCall;
 
-  constructor(call: UpdateApplicationsStartTimeCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateDistributionCall extends ethereum.Call {
-  get inputs(): UpdateDistributionCall__Inputs {
-    return new UpdateDistributionCall__Inputs(this);
-  }
-
-  get outputs(): UpdateDistributionCall__Outputs {
-    return new UpdateDistributionCall__Outputs(this);
-  }
-}
-
-export class UpdateDistributionCall__Inputs {
-  _call: UpdateDistributionCall;
-
-  constructor(call: UpdateDistributionCall) {
-    this._call = call;
-  }
-
-  get encodedDistribution(): Bytes {
-    return this._call.inputValues[0].value.toBytes();
-  }
-}
-
-export class UpdateDistributionCall__Outputs {
-  _call: UpdateDistributionCall;
-
-  constructor(call: UpdateDistributionCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateProjectsMetaPtrCall extends ethereum.Call {
-  get inputs(): UpdateProjectsMetaPtrCall__Inputs {
-    return new UpdateProjectsMetaPtrCall__Inputs(this);
-  }
-
-  get outputs(): UpdateProjectsMetaPtrCall__Outputs {
-    return new UpdateProjectsMetaPtrCall__Outputs(this);
-  }
-}
-
-export class UpdateProjectsMetaPtrCall__Inputs {
-  _call: UpdateProjectsMetaPtrCall;
-
-  constructor(call: UpdateProjectsMetaPtrCall) {
-    this._call = call;
-  }
-
-  get newProjectsMetaPtr(): UpdateProjectsMetaPtrCallNewProjectsMetaPtrStruct {
-    return changetype<UpdateProjectsMetaPtrCallNewProjectsMetaPtrStruct>(
-      this._call.inputValues[0].value.toTuple()
-    );
-  }
-}
-
-export class UpdateProjectsMetaPtrCall__Outputs {
-  _call: UpdateProjectsMetaPtrCall;
-
-  constructor(call: UpdateProjectsMetaPtrCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateProjectsMetaPtrCallNewProjectsMetaPtrStruct extends ethereum.Tuple {
-  get protocol(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get pointer(): string {
-    return this[1].toString();
-  }
-}
-
-export class UpdateRoundEndTimeCall extends ethereum.Call {
-  get inputs(): UpdateRoundEndTimeCall__Inputs {
-    return new UpdateRoundEndTimeCall__Inputs(this);
-  }
-
-  get outputs(): UpdateRoundEndTimeCall__Outputs {
-    return new UpdateRoundEndTimeCall__Outputs(this);
-  }
-}
-
-export class UpdateRoundEndTimeCall__Inputs {
-  _call: UpdateRoundEndTimeCall;
-
-  constructor(call: UpdateRoundEndTimeCall) {
-    this._call = call;
-  }
-
-  get newRoundEndTime(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class UpdateRoundEndTimeCall__Outputs {
-  _call: UpdateRoundEndTimeCall;
-
-  constructor(call: UpdateRoundEndTimeCall) {
+  constructor(call: UpdateRoundFeePercentageCall) {
     this._call = call;
   }
 }
@@ -1264,32 +1616,44 @@ export class UpdateRoundMetaPtrCallNewRoundMetaPtrStruct extends ethereum.Tuple 
   }
 }
 
-export class UpdateRoundStartTimeCall extends ethereum.Call {
-  get inputs(): UpdateRoundStartTimeCall__Inputs {
-    return new UpdateRoundStartTimeCall__Inputs(this);
+export class UpdateStartAndEndTimesCall extends ethereum.Call {
+  get inputs(): UpdateStartAndEndTimesCall__Inputs {
+    return new UpdateStartAndEndTimesCall__Inputs(this);
   }
 
-  get outputs(): UpdateRoundStartTimeCall__Outputs {
-    return new UpdateRoundStartTimeCall__Outputs(this);
+  get outputs(): UpdateStartAndEndTimesCall__Outputs {
+    return new UpdateStartAndEndTimesCall__Outputs(this);
   }
 }
 
-export class UpdateRoundStartTimeCall__Inputs {
-  _call: UpdateRoundStartTimeCall;
+export class UpdateStartAndEndTimesCall__Inputs {
+  _call: UpdateStartAndEndTimesCall;
 
-  constructor(call: UpdateRoundStartTimeCall) {
+  constructor(call: UpdateStartAndEndTimesCall) {
     this._call = call;
   }
 
-  get newRoundStartTime(): BigInt {
+  get newApplicationsStartTime(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get newApplicationsEndTime(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get newRoundStartTime(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get newRoundEndTime(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
   }
 }
 
-export class UpdateRoundStartTimeCall__Outputs {
-  _call: UpdateRoundStartTimeCall;
+export class UpdateStartAndEndTimesCall__Outputs {
+  _call: UpdateStartAndEndTimesCall;
 
-  constructor(call: UpdateRoundStartTimeCall) {
+  constructor(call: UpdateStartAndEndTimesCall) {
     this._call = call;
   }
 }
@@ -1320,6 +1684,40 @@ export class VoteCall__Outputs {
   _call: VoteCall;
 
   constructor(call: VoteCall) {
+    this._call = call;
+  }
+}
+
+export class WithdrawCall extends ethereum.Call {
+  get inputs(): WithdrawCall__Inputs {
+    return new WithdrawCall__Inputs(this);
+  }
+
+  get outputs(): WithdrawCall__Outputs {
+    return new WithdrawCall__Outputs(this);
+  }
+}
+
+export class WithdrawCall__Inputs {
+  _call: WithdrawCall;
+
+  constructor(call: WithdrawCall) {
+    this._call = call;
+  }
+
+  get tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get recipent(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class WithdrawCall__Outputs {
+  _call: WithdrawCall;
+
+  constructor(call: WithdrawCall) {
     this._call = call;
   }
 }

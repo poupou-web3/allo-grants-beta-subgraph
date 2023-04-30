@@ -61,14 +61,18 @@ export class Voted__Params {
     return this._event.parameters[4].value.toBytes();
   }
 
+  get applicationIndex(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
   get roundAddress(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[6].value.toAddress();
   }
 }
 
-export class votingContract extends ethereum.SmartContract {
-  static bind(address: Address): votingContract {
-    return new votingContract("votingContract", address);
+export class openSourceVoting extends ethereum.SmartContract {
+  static bind(address: Address): openSourceVoting {
+    return new openSourceVoting("openSourceVoting", address);
   }
 
   VERSION(): string {
