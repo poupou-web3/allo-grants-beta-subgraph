@@ -1,0 +1,33 @@
+type Vote @entity(immutable: true) {
+  id: Bytes!
+  token: Bytes! # address
+  amount: BigInt! # uint256
+  voter: Bytes! # address
+  grantAddress: Bytes! # address
+  projectId: Bytes! # bytes32
+  roundAddress: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Application @entity(immutable: true) {
+  id: Bytes!
+  projectId: Bytes! # bytes32
+  roundAddress: Bytes! # address
+  metaPtrProtocol: BigInt! # uint256
+  metaPtrPointer: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Project @entity(immutable: true) {
+  id: Bytes!
+  roundAddress: Bytes! # address
+  metaPtrProtocol: BigInt! # uint256
+  metaPtrPointer: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

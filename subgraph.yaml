@@ -1,0 +1,47 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ClimateSolutionsRound012023
+    network: mainnet
+    source:
+      address: "0x1b165fe4da6bc58ab8370ddc763d367d29f50ef0"
+      abi: roundContract
+      startBlock: 16349401
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Application
+        - Project
+      abis:
+        - name: roundContract
+          file: ./abis/RoundContract.json
+      eventHandlers:
+        - event: NewProjectApplication(indexed bytes32,(uint256,string))
+          handler: handleNewProjectApplication
+        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
+          handler: handleProjectsMetaPtrUpdated
+      file: ./src/round.ts
+  - kind: ethereum
+    name: ClimateSolutionsVoting012023
+    network: mainnet
+    source:
+      address: "0xbaa2f652c7a2228f2e161a615b8a55b359a0a2c8"
+      abi: votingContract
+      startBlock: 16349401
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Vote
+      abis:
+        - name: votingContract
+          file: ./abis/VotingContract.json
+      eventHandlers:
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,indexed address)
+          handler: handleVoted
+      file: ./src/vote.ts
