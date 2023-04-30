@@ -7,12 +7,17 @@ npm install -g @graphprotocol/graph-cli
 or 
 yarn global add @graphprotocol/graph-cli
 
+npm install ??
+
 graph auth --studio <access_token>
 
-graph codegen not needed as the generated code is already in the repo
-graph build
+graph codegen && graph build
 
 graph deploy --studio <subgraph_name>
 ```
 
 The DAI contracts events may be missing.
+
+developement query url
+https://api.studio.thegraph.com/query/38576/allo-grants-beta-subgraph/v0.1.0
+
