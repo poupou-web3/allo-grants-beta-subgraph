@@ -70,9 +70,9 @@ export class Voted__Params {
   }
 }
 
-export class openSourceVoting extends ethereum.SmartContract {
-  static bind(address: Address): openSourceVoting {
-    return new openSourceVoting("openSourceVoting", address);
+export class vote extends ethereum.SmartContract {
+  static bind(address: Address): vote {
+    return new vote("vote", address);
   }
 
   VERSION(): string {

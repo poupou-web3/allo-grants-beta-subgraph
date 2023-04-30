@@ -4,1224 +4,331 @@ schema:
 dataSources:
   # Web3 Open Source Software Round
   - kind: ethereum
-    name: openSourceRound
-    network: mainnet
-    source:
-      address: "0x12BB5bBbFE596dbc489d209299B8302c3300fa40"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: openSourceVoting
+    name: ossVote
     network: mainnet
     source:
       address: "0x0F8e03A2175184228A429A118653D068F3a0Bb35"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
-    
+
   # Ethereum Infrastructure Round
   - kind: ethereum
-    name: ethereumInfrastructureRound
-    network: mainnet
-    source:
-      address: "0xdf22a2C8F6BA9376fF17EE13E6154B784ee92094"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: ethereumInfrastructureVoting
+    name: ethInfraVote
     network: mainnet
     source:
       address: "0xDA2F26B30e8f5aa9cbE9c5B7Ed58E1cA81D0EbF2"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
   # Climate Solutions id 0x83ABfd6E991C50C93c540aC41b0DB8C6Bfdb6e5A has no transactions
   # Climate Solutions Round id 0x421510312C40486965767be5Ea603Aa8a5707983
   - kind: ethereum
-    name: climateSolutionsRound
-    network: mainnet
-    source:
-      address: "0x421510312C40486965767be5Ea603Aa8a5707983"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: climateSolutionsVoting
+    name: climateVote
     network: mainnet
     source:
       address: "0x1742b194b214f64231a62e704dc8ad887c99aba0"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
-
+  
   # ZK Tech Round
   - kind: ethereum
-    name: zkTechRound
-    network: mainnet
-    source:
-      address: "0x274554EB289004e15A7679123901B7F070dDa0fa"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: zkTechVoting
+    name: zkTechVote
     network: mainnet
     source:
       address: "0x10cb6def9b7eb5cefa5e14cabab1109fff16b7b9"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
-# Web3 Community and Education
+  # Web3 Community and Education
   - kind: ethereum
-    name: web3CommunityAndEducationRound
-    network: mainnet
-    source:
-      address: "0xAA40E2E5c8df03d792A52B5458959C320F86ca18"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: web3CommunityAndEducationVoting
+    name: web3CommunityAndEducationVote
     network: mainnet
     source:
       address: "0x4091ab19c094f4790c85a7fadfb71d74edbd90a4"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
-
+  
   # Metacrisis Round
   - kind: ethereum
-    name: metacrisisRound
-    network: mainnet
-    source:
-      address: "0x8aA06b3b8cAc2970857F4E0fD78F21dc01AAdE94"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: metacrisisVoting
+    name: metacrisisVote
     network: mainnet
     source:
       address: "0xf53dae81d5f181f64f427fb661426a714de1395f"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
-# The phantom menace sybil round
+  
+  # The phantom menace sybil round
   - kind: ethereum
-    name: thePhantomMenaceRound
-    network: mainnet
-    source:
-      address: "0x905eFBaBe2d52cD648FAdfafCeC8D6C8c60F7423"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: thePhantomMenaceVoting
+    name: thePhantomMenaceVote
     network: mainnet
     source:
       address: "0x83fd9bb0048f5528d54ff763bfc4e28dedf8e431"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
-
-  # Token Engineering
+  
+   # Token Engineering
   - kind: ethereum
-    name: tokenEngineeringRound
-    network: mainnet
-    source:
-      address: "0x9E669c0A6e075F14ba9d9D98C3580aD67E20ec38"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: tokenEngineeringVoting
+    name: tokenEngineeringVote
     network: mainnet
     source:
       address: "0xac0e8551e8081ed10c3e7a0dfdf78e0c995722b5"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
-
-  # Web3n Socials
+  
+ # Web3n Socials
   - kind: ethereum
-    name: web3nSocialsRound
-    network: mainnet
-    source:
-      address: "0x9C3B81967EafBA0a451E324417DD4F3F353b997b"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: web3nSocialsVoting
+    name: web3nSocialsVote
     network: mainnet
     source:
       address: "0x7b00eb3175a98cd2055a1c72589776a392cca9c5"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
+  
   # Mantle Grants 1
   - kind: ethereum
-    name: mantleGrants1Round
-    network: mainnet
-    source:
-      address: "0xF1C021DF6Dc6b2dC2E5A837CDFDDC2f42503233B"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: mantleGrants1Voting
+    name: mantleGrants1Vote
     network: mainnet
     source:
       address: "0xF013A8269f988c0E0A7Be236C2b96aB079Ef4777"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
+  
   # DeSci
   - kind: ethereum
-    name: deSciRound
-    network: mainnet
-    source:
-      address: "0x6e8dC2e623204D61b0E59E668702654aE336c9f7"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: deSciVoting
+    name: deSciVote
     network: mainnet
     source:
       address: "0x28eee0a2ef7d71c63ca4a79ebf925c415300ea16"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
-  # ens round id 0xf43f4972e47F08EdB5132B2c2b5D06DF221d0fae is empty
+  
   # ens ecosystem id  0x64E5b2228eF31437909900B38fC42Dd5E4B83147
   - kind: ethereum
-    name: ensEcosystemRound
-    network: mainnet
-    source:
-      address: "0x64E5b2228eF31437909900B38fC42Dd5E4B83147"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: ensEcosystemVoting
+    name: ensEcosystemVote
     network: mainnet
     source:
       address: "0xa09a77809785452c7a5e3d087afa4b6bc66ec881"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
 
+  
   # Global Chinese Community
   - kind: ethereum
-    name: globalChineseCommunityRound
-    network: mainnet
-    source:
-      address: "0x859FaeAa266BA13bd1E72eB6dd7A223902d1adFE"
-      abi: roundContract
-      startBlock: 17000000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - ApplicationMetaPtrUpdated
-        - ApplicationStatusesUpdated
-        - ApplicationsEndTimeUpdated
-        - ApplicationsStartTimeUpdated
-        - Initialized
-        - MatchAmountUpdated
-        - NewProjectApplication
-        - PayFeeAndEscrowFundsToPayoutContract
-        - ProjectsMetaPtrUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - RoundEndTimeUpdated
-        - RoundFeeAddressUpdated
-        - RoundFeePercentageUpdated
-        - RoundMetaPtrUpdated
-        - RoundStartTimeUpdated
-      abis:
-        - name: roundContract
-          file: ./abis/RoundContract.json
-      eventHandlers:
-        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleApplicationMetaPtrUpdated
-        - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
-          handler: handleApplicationStatusesUpdated
-        - event: ApplicationsEndTimeUpdated(uint256,uint256)
-          handler: handleApplicationsEndTimeUpdated
-        - event: ApplicationsStartTimeUpdated(uint256,uint256)
-          handler: handleApplicationsStartTimeUpdated
-        - event: Initialized(uint8)
-          handler: handleInitialized
-        - event: MatchAmountUpdated(uint256)
-          handler: handleMatchAmountUpdated
-        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: PayFeeAndEscrowFundsToPayoutContract(uint256,uint256,uint256)
-          handler: handlePayFeeAndEscrowFundsToPayoutContract
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
-          handler: handleRoleAdminChanged
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: RoundEndTimeUpdated(uint256,uint256)
-          handler: handleRoundEndTimeUpdated
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleRoundMetaPtrUpdated
-        - event: RoundStartTimeUpdated(uint256,uint256)
-          handler: handleRoundStartTimeUpdated
-      file: ./src/round.ts
-  - kind: ethereum
-    name: globalChineseCommunityVoting
+    name: globalChineseCommunityVote
     network: mainnet
     source:
       address: "0x7fc2de5ce86fc5a27ccb2b8167bc0359cc4553fa"
-      abi: votingContract
+      abi: vote
       startBlock: 17000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - openSourceVotingInitialized
+        - Initialized
         - Voted
       abis:
-        - name: votingContract
-          file: ./abis/VotingContract.json
+        - name: vote
+          file: ./abis/vote.json
       eventHandlers:
         - event: Initialized(uint8)
           handler: handleInitialized
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed
-            address)
+        - event: Voted(address,uint256,indexed address,address,indexed bytes32,uint256,indexed address)
           handler: handleVoted
       file: ./src/vote.ts
