@@ -7,8 +7,6 @@ npm install -g @graphprotocol/graph-cli
 or 
 yarn global add @graphprotocol/graph-cli
 
-npm install ??
-
 graph auth --studio <access_token>
 
 graph codegen && graph build
